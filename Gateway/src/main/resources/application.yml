@@ -1,0 +1,46 @@
+server:
+  port: 8080
+  
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    config:
+      enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user-service
+          uri: lb://user-service    
+          predicates:
+            - Path=/api/v1/user/**
+          filters:
+            - AuthFilter
+        - id: amazon-service
+          uri: lb://amazon-service
+          predicates:
+            - Path=/api/v1/amazon/**
+          filters:
+            - AuthFilter  
+        - id: warehouse-service
+          uri: lb://warehouse-service
+          predicates:
+            - Path=/api/v1/warehouse/**
+          filters:
+            - AuthFilter  
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:  
+            - Path=/auth/**
+                 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    
+    
