@@ -1,5 +1,7 @@
 package com.service.gateway.config;
 
+import java.util.List;
+
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -30,14 +32,37 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 	@Override
 	public GatewayFilter apply(Config config) {
 		return (((exchange, chain)->{
+			String tokenHeader = null;
+			TokenDto tokenDto = null;
 			if(!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION))
 				return onError(exchange, HttpStatus.BAD_REQUEST);
-			String tokenHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-			String [] chunks = tokenHeader.split(" ");
-			if(chunks.length!=2 || !chunks[0].equals("Bearer"))
-				return onError(exchange, HttpStatus.BAD_REQUEST);
-			String token = chunks[1];
-			TokenDto tokenDto = TokenDto.builder().token(token).build();
+			if(exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+				tokenHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
+				String [] chunks = tokenHeader.split(" ");
+				if(chunks.length!=2 || !chunks[0].equals("Bearer"))
+					return onError(exchange, HttpStatus.BAD_REQUEST);
+				String token = chunks[1];
+				tokenDto = TokenDto.builder().token(token).build();
+			}
+			
+			if (exchange.getRequest().getHeaders().containsKey(HttpHeaders.COOKIE)) {
+	            List<String> cookies = exchange.getRequest().getHeaders().get(HttpHeaders.COOKIE);
+	            for (String cookieHeader : cookies) {
+	                String[] chunks = cookieHeader.split(";");
+	                for (String chunk : chunks) {
+	                    String[] keyValue = chunk.trim().split("=");
+	                    if (keyValue.length == 2 && keyValue[0].equals("accessToken")) {
+	                        String token = keyValue[1];
+	                        tokenDto = TokenDto.builder().token(token).build();
+	                    }
+	                }
+	            }
+	        }
+			
+			if (tokenDto == null) {
+	            return onError(exchange, HttpStatus.UNAUTHORIZED);
+	        }
+			
 			return webClient.build()
 					.post()
 					.uri("http://auth-service/auth/validate")
