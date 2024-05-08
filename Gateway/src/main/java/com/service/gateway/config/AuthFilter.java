@@ -41,9 +41,9 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 			TokenDto tokenDto = null;
 			if(!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
 				log.info(exchange.getRequest().getHeaders().toString());
-				log.info("error de autorizacion");
 				return onError(exchange, HttpStatus.BAD_REQUEST);}
 			if(exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+				log.info(exchange.getRequest().getHeaders().toString());
 				tokenHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
 				log.info("token heade: "+tokenHeader);
 				String [] chunks = tokenHeader.split(" ");
