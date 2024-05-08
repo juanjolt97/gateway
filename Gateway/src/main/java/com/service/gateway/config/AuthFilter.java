@@ -32,7 +32,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 	@Override
 	public GatewayFilter apply(Config config) {
 		return (((exchange, chain)->{
-			if (exchange.getRequest().getPath().toString().startsWith("/app/login")) {
+			if (exchange.getRequest().getPath().toString().contains("/app/login")) {
 	            return chain.filter(exchange);
 	        }
 			String tokenHeader = null;
