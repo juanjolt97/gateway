@@ -32,20 +32,12 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 	@Override
 	public GatewayFilter apply(Config config) {
 		return (((exchange, chain)->{
-            String path = exchange.getRequest().getURI().getPath();
-            log.info("path: " + path);
-			if (path.equals("/app/login")) {
-	            return chain.filter(exchange);
-	        }
 			String tokenHeader = null;
 			TokenDto tokenDto = null;
 			if(!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-				log.info(exchange.getRequest().getHeaders().toString());
 				return onError(exchange, HttpStatus.BAD_REQUEST);}
 			if(exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-				log.info(exchange.getRequest().getHeaders().toString());
 				tokenHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
-				log.info("token heade: "+tokenHeader);
 				String [] chunks = tokenHeader.split(" ");
 				if(chunks.length!=2 || !chunks[0].equals("Bearer"))
 					return onError(exchange, HttpStatus.BAD_REQUEST);
