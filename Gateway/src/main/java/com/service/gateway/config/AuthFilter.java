@@ -45,20 +45,6 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 				tokenDto = TokenDto.builder().token(token).build();
 			}
 			
-			if (exchange.getRequest().getHeaders().containsKey(HttpHeaders.COOKIE)) {
-	            List<String> cookies = exchange.getRequest().getHeaders().get(HttpHeaders.COOKIE);
-	            for (String cookieHeader : cookies) {
-	                String[] chunks = cookieHeader.split(";");
-	                for (String chunk : chunks) {
-	                    String[] keyValue = chunk.trim().split("=");
-	                    if (keyValue.length == 2 && keyValue[0].equals("accessToken")) {
-	                        String token = keyValue[1];
-	                        tokenDto = TokenDto.builder().token(token).build();
-	                    }
-	                }
-	            }
-	        }
-			
 			if (tokenDto == null) {
 	            return onError(exchange, HttpStatus.UNAUTHORIZED);
 	        }
