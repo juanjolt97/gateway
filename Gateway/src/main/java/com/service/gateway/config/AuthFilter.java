@@ -36,6 +36,8 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 		return (((exchange, chain)->{
 			String tokenHeader = null;
 			TokenDto tokenDto = null;
+			if(!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) 
+				return onError(exchange, HttpStatus.BAD_REQUEST);
 			if(exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
 				tokenHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
 				String [] chunks = tokenHeader.split(" ");
@@ -46,7 +48,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 			}
 			
 			if(tokenDto==null) {
-				return Mono.error(new RuntimeException("Token is null"));
+				return onError(exchange, HttpStatus.UNAUTHORIZED);
 			}
 			
 			return webClient.build()
@@ -55,8 +57,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 					.bodyValue(tokenDto)
 					.retrieve()
 					.bodyToMono(TokenDto.class)
-					.flatMap(t -> chain.filter(exchange))
-					.onErrorResume(c->Mono.error(c));
+					.flatMap(t -> chain.filter(exchange));
 		}));
 	}
 	
