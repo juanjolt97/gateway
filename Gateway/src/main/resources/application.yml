@@ -39,7 +39,8 @@ spring:
           uri: lb://front-service
           predicates:  
             - Path=/app/**
-            
+          filters:
+            - AuthFilter  
                  
 eureka:
   client:
