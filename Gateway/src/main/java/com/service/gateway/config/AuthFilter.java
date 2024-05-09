@@ -44,6 +44,11 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 				String token = chunks[1];
 				tokenDto = TokenDto.builder().token(token).build();
 			}
+			
+			if(tokenDto==null) {
+				return Mono.error(new RuntimeException("Token is null"));
+			}
+			
 			return webClient.build()
 					.post()
 					.uri("http://auth-service/auth/validate")
