@@ -50,16 +50,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 					.bodyValue(tokenDto)
 					.retrieve()
 					.bodyToMono(TokenDto.class)
-					.flatMap(t -> chain.filter(exchange))
-					.onErrorResume(error -> {
-	                    if (error instanceof WebClientResponseException) {
-	                        HttpStatusCode statusCode = ((WebClientResponseException) error).getStatusCode();
-	                        if (statusCode == HttpStatus.UNAUTHORIZED || statusCode == HttpStatus.BAD_REQUEST) {
-	                            return onError(exchange, HttpStatus.TEMPORARY_REDIRECT);
-	                        }
-	                    }
-	                    return Mono.error(error);
-	                });
+					.flatMap(t -> chain.filter(exchange));
 		}));
 	}
 	
