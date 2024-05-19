@@ -58,7 +58,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 					.retrieve()
 					.bodyToMono(TokenDto.class)
 					.flatMap(t -> chain.filter(exchange))
-					.onErrorResume(error-> Mono.error(error));
+					.onErrorResume(error-> onError(exchange, HttpStatus.UNAUTHORIZED));
 		}));
 	}
 	
