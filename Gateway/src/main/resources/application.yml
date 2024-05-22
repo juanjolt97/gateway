@@ -30,11 +30,16 @@ spring:
             - Path=/api/v1/warehouse/**
           filters:
             - AuthFilter  
+        - id: update-service
+          uri: lb://update-service
+          predicates:
+            - Path=/api/v1/updateservice/**
+          filters:
+            - AuthFilter  
         - id: auth-service
           uri: lb://auth-service
           predicates:  
-            - Path=/auth/**
-            
+            - Path=/auth/**  
         - id: front-service
           uri: lb://front-service
           predicates:  
