@@ -50,7 +50,7 @@ eureka:
     serviceUrl:
       defaultZone: http://eurekaServer:8761/eureka
   instance:
-    hostname: gateway
+    hostname: gateway-service
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     
     
