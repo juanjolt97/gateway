@@ -1,7 +1,10 @@
 server:
-  port: 8086
+  port: ${PORT:${SERVER_PORT:0}}
   
 spring:
+  config:
+    activate:
+      on-profile: dev
   application:
     name: gateway-service
   cloud:
@@ -48,9 +51,9 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eurekaServer:8761/eureka
+      defaultZone: http://localhost:8761/eureka
   instance:
-    hostname: gateway-service
+    hostname: localhost
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     
     
