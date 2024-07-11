@@ -58,4 +58,4 @@ eureka:
     
 base:
   url:
-    authValidate: "https://auth-service/auth/validate"    
+    authValidate: "http://auth-service/auth/validate"    
