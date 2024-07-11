@@ -2,6 +2,7 @@ package com.service.gateway.config;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +22,9 @@ import reactor.core.publisher.Mono;
 @Component
 @Slf4j
 public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
+	
+	@Value("base.url.authValidate")
+	String baseUrlAuthString;
 	
 	public static class Config{}
 	
@@ -53,7 +57,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 			
 			return webClient.build()
 					.post()
-					.uri("http://auth-service/auth/validate")
+					.uri(baseUrlAuthString)
 					.bodyValue(tokenDto)
 					.retrieve()
 					.bodyToMono(TokenDto.class)

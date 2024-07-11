@@ -56,4 +56,6 @@ eureka:
     hostname: gateway-service
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     
-    
+base:
+  url:
+    authValidate: "https://auth-service/auth/validate"    
