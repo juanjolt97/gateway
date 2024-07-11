@@ -23,7 +23,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config>{
 	
-	@Value("base.url.authValidate")
+	@Value("${base.url.authValidate}")
 	String baseUrlAuthString;
 	
 	public static class Config{}
