@@ -1,6 +1,8 @@
 server:
   port: 8086
-  
+  servlet:
+   session:
+    timeout: 86000
 spring:
   config:
     activate:
