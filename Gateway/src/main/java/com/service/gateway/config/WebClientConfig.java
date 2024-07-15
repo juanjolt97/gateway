@@ -20,8 +20,8 @@ public class WebClientConfig {
 	public WebClient.Builder builder(){
 		ConnectionProvider provider = ConnectionProvider.builder("fixed")
 			    .maxConnections(500)  
-			    .maxIdleTime(Duration.ofSeconds(20))  
-			    .maxLifeTime(Duration.ofSeconds(60)) 
+			    .maxIdleTime(Duration.ofMinutes(30))  
+			    .maxLifeTime(Duration.ofHours(4)) 
 			    .pendingAcquireTimeout(Duration.ofSeconds(60))  
 			    .evictInBackground(Duration.ofSeconds(120)) 
 			    .build();
