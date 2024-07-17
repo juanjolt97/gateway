@@ -19,7 +19,7 @@ public class WebClientConfig {
 	WebClient.Builder builder(){	
 		HttpClient client = HttpClient.create()
 				  .option(ChannelOption.SO_KEEPALIVE, true)
-				  .option(EpollChannelOption.TCP_KEEPIDLE, 86400)
+				  .option(EpollChannelOption.TCP_KEEPIDLE, 3600)
 				  .option(EpollChannelOption.TCP_KEEPINTVL, 60)
 				  .option(EpollChannelOption.TCP_KEEPCNT, 8);
 		return WebClient.builder()
