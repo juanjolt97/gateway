@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import io.netty.channel.ChannelOption;
+import io.netty.channel.epoll.EpollChannelOption;
 import reactor.netty.http.client.HttpClient;
 
 @Configuration
@@ -14,9 +16,14 @@ public class WebClientConfig {
 	
 	@Bean
 	@LoadBalanced
-	public WebClient.Builder builder(){		
+	WebClient.Builder builder(){	
+		HttpClient client = HttpClient.create()
+				  .option(ChannelOption.SO_KEEPALIVE, true)
+				  .option(EpollChannelOption.TCP_KEEPIDLE, 86400)
+				  .option(EpollChannelOption.TCP_KEEPINTVL, 60)
+				  .option(EpollChannelOption.TCP_KEEPCNT, 8);
 		return WebClient.builder()
-                .clientConnector(new ReactorClientHttpConnector(HttpClient.create()));
+                .clientConnector(new ReactorClientHttpConnector(client));
 	}
 
 }
