@@ -3,7 +3,6 @@
 FROM maven:3.8.5-openjdk-17-slim AS build
 WORKDIR /Gateway
 COPY pom.xml .
-COPY logback.xml .
 COPY src ./src
 ENV SPRING_PROFILES_ACTIVE=prod
 RUN mvn clean package
