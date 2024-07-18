@@ -26,7 +26,7 @@ public class WebClientConfig {
 				  .option(EpollChannelOption.TCP_KEEPIDLE, 300)
 				  .option(EpollChannelOption.TCP_KEEPINTVL, 60)
 				  .option(EpollChannelOption.TCP_KEEPCNT, 8)
-			      .wiretap("reactor.netty.http.client.HttpClient", LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL);
+			      .wiretap(HttpClient.class.getCanonicalName(), LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL);
 		return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(client));
 	}
