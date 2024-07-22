@@ -41,6 +41,12 @@ spring:
             - Path=/api/v1/updateservice/**
           filters:
             - AuthFilter  
+        - id: woocomerce-service
+          uri: lb://woocomerce-service
+          predicates:
+           - Path=/api/v1/woocomerce/**
+          filters:
+           - AuthFilter		
         - id: auth-service
           uri: lb://auth-service
           predicates:  
