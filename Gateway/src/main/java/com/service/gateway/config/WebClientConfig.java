@@ -1,7 +1,6 @@
 package com.service.gateway.config;
 
 
-import java.nio.charset.StandardCharsets;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
