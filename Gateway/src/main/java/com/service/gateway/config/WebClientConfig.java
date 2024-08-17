@@ -21,11 +21,10 @@ public class WebClientConfig {
 	@LoadBalanced
 	WebClient.Builder builder(){	
 		HttpClient client = HttpClient.create()
-				  .option(ChannelOption.SO_KEEPALIVE, true)
-				  .option(EpollChannelOption.TCP_KEEPIDLE, 300)
-				  .option(EpollChannelOption.TCP_KEEPINTVL, 60)
-				  .option(EpollChannelOption.TCP_KEEPCNT, 8)
-			      .wiretap(HttpClient.class.getCanonicalName(), LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL);
+				  .option(ChannelOption.SO_KEEPALIVE, false)
+				  .option(EpollChannelOption.TCP_KEEPIDLE, 30)
+				  .option(EpollChannelOption.TCP_KEEPINTVL, 30)
+				  .option(EpollChannelOption.TCP_KEEPCNT, 30);
 		return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(client));
 	}
