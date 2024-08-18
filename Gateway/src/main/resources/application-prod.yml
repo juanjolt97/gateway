@@ -11,10 +11,16 @@ spring:
     config:
       enabled: false
     gateway:
-      discovery:
+     httpclient:
+      connect-timeout: 20000
+      pool:
+       max-connections: 1500
+       type: FIXED
+       metrics: true
+     discovery:
         locator:
           enabled: true
-      routes:
+     routes:
         - id: user-service
           uri: lb://user-service    
           predicates:
