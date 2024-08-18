@@ -2,6 +2,8 @@ package com.service.gateway.config;
 
 
 
+import java.time.Duration;
+
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.epoll.EpollChannelOption;
 import io.netty.handler.logging.LogLevel;
 import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
 import reactor.netty.transport.logging.AdvancedByteBufFormat;
 
 @Configuration
@@ -20,13 +23,18 @@ public class WebClientConfig {
 	@Bean
 	@LoadBalanced
 	WebClient.Builder builder(){	
-		HttpClient client = HttpClient.create()
-				  .option(ChannelOption.SO_KEEPALIVE, false)
-				  .option(EpollChannelOption.TCP_KEEPIDLE, 30)
-				  .option(EpollChannelOption.TCP_KEEPINTVL, 30)
-				  .option(EpollChannelOption.TCP_KEEPCNT, 30);
+		ConnectionProvider provider = ConnectionProvider.builder("fixed")
+                .maxConnections(500)
+                .maxIdleTime(Duration.ofSeconds(20))
+                .maxLifeTime(Duration.ofSeconds(60))
+                .pendingAcquireTimeout(Duration.ofSeconds(60))
+                .evictInBackground(Duration.ofSeconds(120)).build();
+
+        HttpClient httpClient = HttpClient.create(provider);
+        httpClient.warmup().block();
+
 		return WebClient.builder()
-                .clientConnector(new ReactorClientHttpConnector(client));
+                .clientConnector(new ReactorClientHttpConnector(httpClient));
 	}
 
 }
