@@ -1,5 +1,7 @@
 server:
   port: 8086
+  http:
+   connection-timeout: 5s
 
 spring:
   config:
@@ -20,6 +22,7 @@ spring:
      discovery:
         locator:
           enabled: true
+          cache-ttl: 10s
      routes:
         - id: user-service
           uri: lb://user-service    

@@ -1,6 +1,8 @@
 server:
   port: 8086
-  
+  http:
+   connection-timeout: 5s
+
 spring:
   config:
     activate:
@@ -11,10 +13,11 @@ spring:
     config:
       enabled: false
     gateway:
-      discovery:
+     discovery:
         locator:
           enabled: true
-      routes:
+          cache-ttl: 10s
+     routes:
         - id: user-service
           uri: lb://user-service    
           predicates:
@@ -22,35 +25,35 @@ spring:
           filters:
             - AuthFilter
         - id: amazon-service
-          uri: http://localhost:8081
+          uri: lb://amazon-service
           predicates:
             - Path=/api/v1/amazon/**
           filters:
             - AuthFilter  
         - id: warehouse-service
-          uri: http://localhost:8082
+          uri: lb://warehouse-service
           predicates:
             - Path=/api/v1/warehouse/**
           filters:
             - AuthFilter  
         - id: update-service
-          uri: http://localhost:8083
+          uri: lb://update-service
           predicates:
             - Path=/api/v1/updateservice/**
           filters:
-            - AuthFilter 
+            - AuthFilter  
         - id: woocomerce-service
-          uri: http://localhost:8084
+          uri: lb://woocomerce-service
           predicates:
            - Path=/api/v1/woocomerce/**
           filters:
-           - AuthFilter		 
+           - AuthFilter   
         - id: auth-service
-          uri: http://localhost:8087
+          uri: lb://auth-service
           predicates:  
             - Path=/auth/**  
         - id: front-service
-          uri: http://localhost:8080
+          uri: lb://front-service
           predicates:  
             - Path=/app/**  
                  
@@ -64,5 +67,4 @@ eureka:
     
 base:
   url:
-    authValidate: "http://localhost:8087/auth/validate"    
-    
+    authValidate: "http://auth-service/auth/validate"
