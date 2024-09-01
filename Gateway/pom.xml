@@ -59,6 +59,10 @@
 			<artifactId>reactor-netty</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+		</dependency>
+		<dependency>
 		    <groupId>io.micrometer</groupId>
 		    <artifactId>micrometer-core</artifactId>
 		</dependency>

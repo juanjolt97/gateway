@@ -1,35 +1,27 @@
 server:
   port: 8086
-  http:
-   connection-timeout: 5s
 
 spring:
   config:
     activate:
       on-profile: prod
+  cache:
+   type: caffeine		
   application:
     name: gateway-service
   cloud:
     config:
       enabled: false
+    loadbalancer:
+      cache:
+        ttl: 300s
+        capacity: 1000
+        enabled: true
     gateway:
-     httpclient:
-      connect-timeout: 20000
-      pool:
-       max-connections: 1500
-       type: FIXED
-       metrics: true
      discovery:
         locator:
           enabled: true
-          cache-ttl: 10s
      routes:
-        - id: user-service
-          uri: lb://user-service    
-          predicates:
-            - Path=/api/v1/user/**
-          filters:
-            - AuthFilter
         - id: amazon-service
           uri: lb://amazon-service
           predicates:
@@ -64,12 +56,13 @@ spring:
             - Path=/app/**  
                  
 eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eurekaServer:8761/eureka
-  instance:
-    hostname: gateway-service
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+ client:
+  fetch-registry: true
+  register-with-eureka: true
+  serviceUrl:
+   defaultZone: http://front-service.paramicole.es:8761/eureka
+ instance:
+  instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     
 base:
   url:
