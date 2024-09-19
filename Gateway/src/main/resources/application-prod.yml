@@ -6,17 +6,12 @@ spring:
     activate:
       on-profile: prod
   cache:
-   type: caffeine		
+   type: caffeine 		
   application:
     name: gateway-service
   cloud:
     config:
       enabled: false
-    loadbalancer:
-      cache:
-        ttl: 300s
-        capacity: 1000
-        enabled: true
     gateway:
      discovery:
         locator:
@@ -60,10 +55,11 @@ eureka:
   fetch-registry: true
   register-with-eureka: true
   serviceUrl:
-   defaultZone: http://front-service.paramicole.es:8761/eureka
+   defaultZone: http://eurekaServer:8761/eureka
  instance:
+  hostname: gateway-service
   instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     
 base:
   url:
-    authValidate: "http://auth-service/auth/validate"
+    authValidate: "http://auth-service:8085/auth/validate"
