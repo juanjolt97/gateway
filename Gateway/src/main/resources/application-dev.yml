@@ -48,6 +48,12 @@ spring:
            - Path=/api/v1/woocomerce/**
           filters:
            - AuthFilter   
+        - id: shopify-service
+          uri: lb://shopify-service
+          predicates:
+           - Path=/api/v1/shopify/**
+          filters:
+           - AuthFilter	 
         - id: auth-service
           uri: lb://auth-service
           predicates:  
