@@ -1,6 +1,5 @@
 server:
   port: 8086
-
 spring:
   config:
     activate:
@@ -13,6 +12,9 @@ spring:
     config:
       enabled: false
     gateway:
+     httpclient:
+      pool:
+       type: disabled
      discovery:
         locator:
           enabled: true
@@ -69,3 +71,8 @@ eureka:
 base:
   url:
     authValidate: "http://auth-service:8085/auth/validate"
+
+logging:
+ level:
+  reactor:
+   netty: debug		

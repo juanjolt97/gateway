@@ -1,7 +1,5 @@
 server:
   port: 8086
-  http:
-   connection-timeout: 5s
 
 spring:
   config:

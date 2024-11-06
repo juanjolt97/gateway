@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.1</version>
+		<version>3.3.5</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.service</groupId>
@@ -37,8 +37,17 @@
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -61,6 +70,10 @@
 		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-reactor-netty</artifactId>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

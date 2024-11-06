@@ -1,6 +1,5 @@
 package com.service.gateway.config;
 
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.cache.annotation.EnableCaching;

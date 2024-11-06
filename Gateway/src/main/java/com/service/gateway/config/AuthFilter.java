@@ -1,14 +1,11 @@
 package com.service.gateway.config;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -16,11 +13,9 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.service.gateway.dto.TokenDto;
 
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Component
-@Slf4j
 public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> {
 
 	@Value("${base.url.authValidate}")
