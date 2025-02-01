@@ -22,6 +22,16 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 	String baseUrlAuthString;
 
 	public static class Config {
+		 private String someProperty;
+
+		    public String getSomeProperty() {
+		        return someProperty;
+		    }
+
+		    public void setSomeProperty(String someProperty) {
+		        this.someProperty = someProperty;
+		    }
+
 	}
 
 	private WebClient.Builder webClient;
@@ -33,7 +43,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 
 	@Override
 	public GatewayFilter apply(Config config) {
-		return (((exchange, chain) -> {
+		return ((exchange, chain) -> {
 			String tokenHeader = null;
 			TokenDto tokenDto = null;
 			if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION))
@@ -53,10 +63,8 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 
 			return webClient.build().post().uri(baseUrlAuthString).bodyValue(tokenDto).retrieve()
 					.bodyToMono(TokenDto.class).flatMap(t -> chain.filter(exchange))
-					.onErrorResume(error -> {
-						return onError(exchange, HttpStatus.UNAUTHORIZED);
-					});
-		}));
+					.onErrorResume(error -> onError(exchange, HttpStatus.UNAUTHORIZED));
+		});
 	}
 
 	public Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus) {
