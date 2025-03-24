@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.8</version>
+		<version>3.3.10</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.service</groupId>
 	<artifactId>gateway</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>Gateway</name>
 	<description>Gateway Service</description>
 	<properties>

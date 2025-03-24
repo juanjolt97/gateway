@@ -48,7 +48,13 @@ spring:
           predicates:
            - Path=/api/v1/shopify/**
           filters:
-           - AuthFilter					 		
+           - AuthFilter
+        - id: tasoftware-service
+          uri: lb://tasoftware-service
+          predicates:
+           - Path=/api/v1/tasoftware/**
+          filters:
+           - AuthFilter	 					 		
         - id: auth-service
           uri: lb://auth-service
           predicates:  
