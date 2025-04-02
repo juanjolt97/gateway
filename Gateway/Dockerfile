@@ -11,6 +11,6 @@ RUN mvn clean package
 
 FROM openjdk:17-jdk-slim
 WORKDIR /Gateway
-COPY --from=build /Gateway/target/gateway-1.0.1.jar .
+COPY --from=build /Gateway/target/gateway-1.0.2.jar .
 ENV SPRING_PROFILES_ACTIVE=prod
-CMD [ "java" , "-jar" , "gateway-1.0.1.jar" ]
+CMD [ "java" , "-jar" , "gateway-1.0.2.jar" ]

@@ -7,6 +7,7 @@ import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
 @Configuration
@@ -21,5 +22,13 @@ public class CacheConfig {
                 .expireAfterWrite(10, TimeUnit.MINUTES)
                 .maximumSize(500)); 
         return cacheManager;
+    }
+    
+    @Bean
+    Cache<String, Boolean> tokenCache() {
+        return Caffeine.newBuilder()
+                .expireAfterWrite(60, TimeUnit.MINUTES)
+                .maximumSize(1000) 
+                .build();
     }
 }
