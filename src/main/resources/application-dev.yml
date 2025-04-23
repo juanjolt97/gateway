@@ -1,0 +1,86 @@
+server:
+  port: 8086
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  application:
+    name: gateway-service
+  cloud:
+    config:
+      enabled: false
+    gateway:
+     discovery:
+        locator:
+          enabled: true
+          cache-ttl: 10s
+     routes:
+        - id: user-service
+          uri: lb://user-service    
+          predicates:
+            - Path=/api/v1/user/**
+          filters:
+            - AuthFilter
+        - id: amazon-service
+          uri: lb://amazon-service
+          predicates:
+            - Path=/api/v1/amazon/**
+          filters:
+            - AuthFilter  
+        - id: warehouse-service
+          uri: lb://warehouse-service
+          predicates:
+            - Path=/api/v1/warehouse/**
+          filters:
+            - AuthFilter  
+        - id: update-service
+          uri: lb://update-service
+          predicates:
+            - Path=/api/v1/updateservice/**
+          filters:
+            - AuthFilter  
+        - id: woocomerce-service
+          uri: lb://woocomerce-service
+          predicates:
+           - Path=/api/v1/woocomerce/**
+          filters:
+           - AuthFilter   
+        - id: shopify-service
+          uri: lb://shopify-service
+          predicates:
+           - Path=/api/v1/shopify/**
+          filters:
+           - AuthFilter
+        - id: tasoftware-service
+          uri: lb://tasoftware-service
+          predicates:
+           - Path=/api/v1/tasoftware/**
+          filters:
+           - AuthFilter	 
+        - id: carrier-service
+          uri: lb://carrier-service
+          predicates:
+           - Path=/api/v1/carrier/**
+          filters:
+           - AuthFilter 
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:  
+            - Path=/auth/**  
+        - id: front-service
+          uri: lb://front-service
+          predicates:  
+            - Path=/app/**  
+                 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    
+base:
+  url:
+    authValidate: "http://auth-service/auth/validate"
